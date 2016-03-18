@@ -93,8 +93,8 @@ function onListening() {
 
 //eureca
 
-//var eurecaClient = new Eureca.Client({ uri: 'http://siplo.lk:3000/' });
-var eurecaClient = new Eureca.Client({ uri: 'http://localhost:3000/' });
+var eurecaClient = new Eureca.Client({ uri: 'http://siplo.lk:3000/' });
+//var eurecaClient = new Eureca.Client({ uri: 'http://localhost:3000/' });
 
 
 eurecaClient.exports.sendSMS = function (number,message)
