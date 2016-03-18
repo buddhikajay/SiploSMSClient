@@ -13,6 +13,9 @@ var Eureca = require('eureca.io');
 var sys = require('sys')
 var exec = require('child_process').exec;
 
+//monitor files
+ var watch = require('watch');
+
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 
 
@@ -112,3 +115,70 @@ eurecaClient.exports.sendSMS = function (number,message)
 eurecaClient.ready(function (serverProxy) {
   serverProxy.initializeConnection();
 });
+
+//watch outgoing sms directory
+// watch.watchTree('/var/spool/sms/outgoing', function (f, curr, prev) {
+//     if (typeof f == "object" && prev === null && curr === null) {
+//       // Finished walking the tree
+//       console.log("Finished walking the tree");
+//     } else if (prev === null) {
+//       // f is a new file
+//       console.log("f is a new file "+f);
+//     } else if (curr.nlink === 0) {
+//       // f was removed
+//       console.log("f was removed "+f);
+//     } else {
+//       // f was changed
+//       console.log("f was changed "+f);
+//     }
+// })
+
+watch.createMonitor('/var/spool/sms/outgoing', function (monitor) {
+    monitor.files['/var/spool/sms/outgoing/.zshrc'] // Stat object for my zshrc.
+    monitor.on("created", function (f, stat) {
+      console.log("outgoing: "+f);
+    })
+    monitor.on("changed", function (f, curr, prev) {
+      // Handle file changes
+      console.log("changed "+f);
+    })
+    monitor.on("removed", function (f, stat) {
+      // Handle removed files
+      console.log("removed "+f);
+    })
+   // monitor.stop(); // Stop watching
+  })
+
+//watch failed sms directory
+watch.createMonitor('/var/spool/sms/failed', function (monitor) {
+    monitor.files['/var/spool/sms/failed/.zshrc'] // Stat object for my zshrc.
+    monitor.on("created", function (f, stat) {
+      console.log("failed: "+f);
+    })
+    monitor.on("changed", function (f, curr, prev) {
+      // Handle file changes
+      console.log("changed "+f);
+    })
+    monitor.on("removed", function (f, stat) {
+      // Handle removed files
+      console.log("removed "+f);
+    })
+   // monitor.stop(); // Stop watching
+  })
+
+//watch sent sms directory
+watch.createMonitor('/var/spool/sms/sent', function (monitor) {
+    monitor.files['/var/spool/sms/sent/.zshrc'] // Stat object for my zshrc.
+    monitor.on("created", function (f, stat) {
+      console.log("sent: "+f);
+    })
+    monitor.on("changed", function (f, curr, prev) {
+      // Handle file changes
+      console.log("changed "+f);
+    })
+    monitor.on("removed", function (f, stat) {
+      // Handle removed files
+      console.log("removed "+f);
+    })
+   // monitor.stop(); // Stop watching
+  })
