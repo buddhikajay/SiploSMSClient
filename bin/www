@@ -95,7 +95,7 @@ function onListening() {
 
 var eurecaClient = new Eureca.Client({ uri: 'http://siplo.lk:3000/' });
 
-eurecaClient.exports.sendSMS = function (number,text)
+eurecaClient.exports.sendSMS = function (number,message)
 {
   console.log('called sendSMS '+number+' '+text);
 }
