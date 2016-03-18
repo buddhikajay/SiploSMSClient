@@ -9,6 +9,12 @@ var debug = require('debug')('SMSClient:server');
 var http = require('http');
 var Eureca = require('eureca.io');
 
+//to execute commands
+var sys = require('sys')
+var exec = require('child_process').exec;
+
+function puts(error, stdout, stderr) { sys.puts(stdout) }
+
 
 /**
  * Get port from environment and store in Express.
@@ -100,6 +106,7 @@ var eurecaClient = new Eureca.Client({ uri: 'http://siplo.lk:3000/' });
 eurecaClient.exports.sendSMS = function (number,message)
 {
   console.log('called sendSMS '+number+' '+message);
+  exec("sendsms "+number+" \""+message+"\"", puts);
 }
 
 eurecaClient.ready(function (serverProxy) {
